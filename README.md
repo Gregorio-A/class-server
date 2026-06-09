@@ -12,6 +12,7 @@ O foco principal do app é permitir que o professor abra um projeto HTML/CSS/JS 
 
 Ele serve os arquivos da pasta atual, injeta automaticamente um script de recarregamento nas páginas HTML e permite que vários dispositivos conectados à mesma rede visualizem o projeto durante a aula.
 
+<img width="1601" height="864" alt="image" src="https://github.com/user-attachments/assets/49ddf93e-de32-4aa0-9a23-95978c0aa99e" />
 ---
 
 ## Principal motivo da criação
