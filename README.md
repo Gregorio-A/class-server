@@ -1,4 +1,4 @@
-# class-server v2
+# Class-Server V2
 
 A local server to share web projects in the classroom with quick QR Code access.
 
