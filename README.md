@@ -2,7 +2,7 @@
 
 A local server to share web projects in the classroom with quick QR Code access.
 
-The main focus of the app is to allow teachers to open an HTML/CSS/JS project on their own computer and share this server with students on the same network, without needing to repeat IP, port, username, or any other tedious configuration.
+The main focus of the app is to allow teachers to open an HTML/CSS/JS project on their own computer and share this server with students on the same network, without needing to repeat IP, port, user[...]
 
 ---
 
@@ -68,19 +68,19 @@ In practice, the QR Code works as a "gateway" to the classroom server.
 ## Quick start
 
 ```bash
-python live_server.py --open
+python server.py --open
 ```
 
 With custom port:
 
 ```bash
-python live_server.py --port 3000 --open
+python server.py --port 3000 --open
 ```
 
 With custom username and password:
 
 ```bash
-python live_server.py --user professor --password aula123 --open
+python server.py --user professor --password aula123 --open
 ```
 
 ---
@@ -114,4 +114,4 @@ The server functions as a bridge between the teacher's computer and the students
 
 It solves the practical problem of sharing a local project in the classroom with less friction: QR Code, temporary authentication, live reload, and access via the local network.
 
-It doesn't replace real hosting or production deployment. The proposal is to be a fast, portable, and efficient tool for demonstrations, HTML/CSS/JS lessons, mobile testing, and remote follow-up during class.
+It doesn't replace real hosting or production deployment. The proposal is to be a fast, portable, and efficient tool for demonstrations, HTML/CSS/JS lessons, mobile testing, and remote follow-up [...]
