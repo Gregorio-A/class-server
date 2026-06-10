@@ -20,7 +20,7 @@ from contextlib import asynccontextmanager
 SCRIPT_DIR = Path(__file__).parent.resolve()
 WORK_DIR = Path.cwd().resolve()
 
-parser = argparse.ArgumentParser(description="Live Server Pro v2")
+parser = argparse.ArgumentParser(description="Class-Server V2")
 parser.add_argument('-p', '--port', type=int, default=8000)
 parser.add_argument('-u', '--user', type=str, default="admin")
 parser.add_argument('-pwd', '--password', type=str, default="")
@@ -40,7 +40,7 @@ def setup_vscode_integration():
     tasks_path = vscode_dir / "tasks.json"
 
     new_task = {
-        "label": "Iniciar Live Server Pro",
+        "label": "Iniciar Class-Server V2",
         "type": "shell",
         "command": sys.executable,
         "args": [Path(__file__).name, "--http", "--open"],
@@ -55,7 +55,7 @@ def setup_vscode_integration():
                 tasks_content = json.load(file_descriptor)
             if "tasks" not in tasks_content:
                 tasks_content["tasks"] = []
-            tasks_content["tasks"] = [t for t in tasks_content.get("tasks", []) if t.get("label") != "Iniciar Live Server Pro"]
+            tasks_content["tasks"] = [t for t in tasks_content.get("tasks", []) if t.get("label") != "Iniciar Class-Server V2"]
         except (json.JSONDecodeError, PermissionError):
             pass
 
@@ -92,7 +92,7 @@ except ImportError:
     is_windows = sys.platform == "win32"
     venv_python = venv_dir / "Scripts" / "python.exe" if is_windows else venv_dir / "bin" / "python"
 
-    packages = ["fastapi", "uvicorn[standard]", "watchdog", "websockets", "qrcode"]
+    packages = ["fastapi", "uvicorn[standard]", "watchdog", "websockets", "qrcode[pil]"]
     if not args.http:
         packages.append("cryptography")
 
@@ -101,7 +101,7 @@ except ImportError:
             subprocess.check_call([python_exe, "-m", "pip", "install", "--quiet", "--timeout", "15"] + pkgs)
         except subprocess.CalledProcessError:
             print("[Erro] Falha ao baixar pacotes via PIP. Verifique sua conexao ou regras de firewall.")
-            print(f"[Instrucao] Para instalacao manual offline, utilize: {python_exe} -m pip install {' '.join(pkgs)}")
+            print(f"[Instrucao] Para instalacao manual offline, utilize: {python_exe} -m pip install -r requirements.txt")
             sys.exit(1)
 
     if sys.executable != str(venv_python):
