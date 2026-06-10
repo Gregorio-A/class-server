@@ -58,8 +58,6 @@ In practice, the QR Code works as a "gateway" to the classroom server.
 * Falls back to HTTP if certificate creation fails.
 * In HTTP mode, limits access to `localhost` for security.
 * Automatically finds a free port when the default port is already in use.
-* Creates Python virtual environment automatically.
-* Installs dependencies automatically via `pip`.
 * Generates optional VS Code integration using `tasks.json`.
 * Saves logs to `live_server.log`.
 
@@ -67,21 +65,86 @@ In practice, the QR Code works as a "gateway" to the classroom server.
 
 ## Quick start
 
+### Recommended: Manual Setup
+
+1. **Create a virtual environment:**
+
+```bash
+python -m venv .venv
+```
+
+2. **Activate the virtual environment:**
+
+On Linux/macOS:
+```bash
+source .venv/bin/activate
+```
+
+On Windows:
+```bash
+.venv\Scripts\activate
+```
+
+3. **Install dependencies:**
+
+```bash
+pip install -r requirements.txt
+```
+
+4. **Run the server:**
+
 ```bash
 python server.py --open
 ```
 
-With custom port:
+### Custom configuration
+
+**With custom port:**
 
 ```bash
 python server.py --port 3000 --open
 ```
 
-With custom username and password:
+**With custom username and password:**
 
 ```bash
 python server.py --user professor --password aula123 --open
 ```
+
+### Alternative: Automatic Setup (Fallback)
+
+If you prefer, the script can automatically create a virtual environment and install dependencies on first run:
+
+```bash
+python server.py --open
+```
+
+Note: This requires internet connectivity and may take longer on first execution.
+
+---
+
+## Architecture
+
+The `server.py` module is organized into the following functional components:
+
+```
+server.py
+├── CLI arguments           # Argument parsing (--port, --user, --password, --open, --http, --vscode)
+├── Dependency bootstrap    # Automatic venv creation and pip package installation
+├── Authentication          # HTTP Basic Auth + QR Code token validation + Rate limiting
+├── File serving           # Static file serving with path security + index.html resolution
+├── WebSocket live reload  # Real-time reload notifications + CSS/image hot-swap
+├── Filesystem watcher     # File change detection + debouncing + ignored directories
+└── SSL / HTTP fallback    # Self-signed certificate generation + protocol negotiation
+```
+
+**Key modules and components:**
+
+- **FastAPI**: Web framework for handling HTTP requests and WebSocket connections
+- **Uvicorn**: ASGI server for running the FastAPI application
+- **Watchdog**: Cross-platform filesystem event monitoring
+- **QRCode**: QR code generation for easy student access
+- **Cryptography**: Self-signed SSL certificate generation
 
 ---
 
@@ -93,7 +156,7 @@ python server.py --user professor --password aula123 --open
 | Certificate warning     | Self-signed HTTPS                               | Accept warning in local environment or generate proper certificate |
 | QR Code doesn't appear  | Terminal doesn't render well                    | Use another terminal or copy the URL manually                   |
 | WebSocket doesn't reload | Certificate/firewall/cache                      | Scan the QR code again and check firewall                       |
-| Dependencies fail       | `pip`, internet, or proxy                       | Install manually with `pip install`                            |
+| Dependencies fail       | `pip`, internet, or proxy                       | Install manually with `pip install -r requirements.txt`         |
 | VS Code task fails      | Script outside project root                     | Place script in correct folder or adjust `tasks.json`           |
 
 ---
@@ -108,10 +171,16 @@ python server.py --user professor --password aula123 --open
 
 ---
 
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
 ## Technical conclusion
 
 The server functions as a bridge between the teacher's computer and the students' devices.
 
 It solves the practical problem of sharing a local project in the classroom with less friction: QR Code, temporary authentication, live reload, and access via the local network.
 
-It doesn't replace real hosting or production deployment. The proposal is to be a fast, portable, and efficient tool for demonstrations, HTML/CSS/JS lessons, mobile testing, and remote follow-up [...]
+It doesn't replace real hosting or production deployment. The proposal is to be a fast, portable, and efficient tool for demonstrations, HTML/CSS/JS lessons, mobile testing, and remote follow-up.
